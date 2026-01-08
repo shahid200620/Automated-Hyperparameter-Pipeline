@@ -84,7 +84,7 @@ Copy code
 docker run -v $(pwd)/outputs:/app/outputs optuna-mlflow-pipeline
 The container runs the entire optimization pipeline automatically and writes all outputs to the mounted outputs/ directory.
 
-###📊 Outputs Generated
+### 📊 Outputs Generated
 After execution, the outputs/ directory contains:
 
 results.json – structured summary of optimization results
@@ -97,7 +97,8 @@ param_importance.png – hyperparameter importance plot
 
 mlruns/ – MLflow experiment tracking data
 
-###🧪 Model Performance
+
+### 🧪 Model Performance
 The tuned XGBoost model significantly outperforms a baseline model:
 
 Test RMSE: ~0.44
@@ -106,7 +107,9 @@ Test R²: ~0.85
 
 This exceeds the required performance thresholds and demonstrates the effectiveness of automated hyperparameter optimization.
 
-###📈 Analysis Notebook
+
+
+### 📈 Analysis Notebook
 A detailed analysis is provided in notebooks/analysis.ipynb, including:
 
 Optimization history visualization
@@ -121,7 +124,8 @@ Written insights and interpretations
 
 The notebook is for analysis only and does not need to run inside Docker.
 
-###♻️ Reproducibility
+
+### ♻️ Reproducibility
 All random seeds are fixed (42)
 
 Optuna uses a persistent SQLite backend
@@ -130,7 +134,8 @@ MLflow tracks every experiment and artifact
 
 Running the pipeline multiple times produces identical results
 
-###✅ Conclusion
+
+### ✅ Conclusion
 This project showcases a complete MLOps-style workflow for automated model optimization, experiment tracking, and reproducible execution.
 It demonstrates practical skills in hyperparameter optimization, experiment management, and production-ready ML system design, making it a strong portfolio and evaluation submission.
 
