@@ -2,6 +2,7 @@ import os
 import random
 import time
 import json
+from src.evaluate import generate_results
 
 import numpy as np
 import mlflow
@@ -161,6 +162,19 @@ def main():
     with mlflow.start_run(run_name="optuna_visualizations"):
         mlflow.log_artifact("outputs/optimization_history.png")
         mlflow.log_artifact("outputs/param_importance.png")
+
+        # -----------------------------
+    # Generate results.json
+    # -----------------------------
+    generate_results(
+        study,
+        X_train,
+        X_test,
+        y_train,
+        y_test,
+        start_time
+    )
+
 
 
 
