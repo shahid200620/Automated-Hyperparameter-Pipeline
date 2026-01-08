@@ -1,0 +1,9 @@
+# Runtime outputs
+outputs/
+mlruns/
+optuna_study.db
+mlflow.db
+
+# Generated artifacts
+*.png
+*.db
