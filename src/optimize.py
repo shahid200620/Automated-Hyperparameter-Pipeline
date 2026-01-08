@@ -137,6 +137,32 @@ def main():
             artifact_path="model"
         )
 
+        # -----------------------------
+    # Generate Optuna visualizations
+    # -----------------------------
+    from optuna.visualization import (
+        plot_optimization_history,
+        plot_param_importances
+    )
+
+    import matplotlib.pyplot as plt
+
+    os.makedirs("outputs", exist_ok=True)
+
+    # Optimization history plot
+    fig1 = plot_optimization_history(study)
+    fig1.write_image("outputs/optimization_history.png")
+
+    # Parameter importance plot
+    fig2 = plot_param_importances(study)
+    fig2.write_image("outputs/param_importance.png")
+
+    # Log plots as MLflow artifacts
+    with mlflow.start_run(run_name="optuna_visualizations"):
+        mlflow.log_artifact("outputs/optimization_history.png")
+        mlflow.log_artifact("outputs/param_importance.png")
+
+
 
 
 if __name__ == "__main__":
