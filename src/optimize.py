@@ -90,6 +90,54 @@ def main():
     print("Optimization completed.")
     print("Best CV RMSE:", np.sqrt(-study.best_value))
 
+        # -----------------------------
+    # Train best model on full training data
+    # -----------------------------
+    best_params = study.best_params
+
+    # best_model = optuna.integration.XGBoostPruningCallback  # dummy reference to ensure optuna-xgboost compatibility
+    from xgboost import XGBRegressor
+
+    model = XGBRegressor(
+        **best_params,
+        random_state=42,
+        n_jobs=1,
+        objective="reg:squarederror",
+        verbosity=0
+    )
+
+    model.fit(X_train, y_train)
+
+    # -----------------------------
+    # Evaluate on test set
+    # -----------------------------
+    y_pred = model.predict(X_test)
+
+    test_mse = mean_squared_error(y_test, y_pred)
+    test_rmse = np.sqrt(test_mse)
+    test_r2 = model.score(X_test, y_test)
+
+    print("Test RMSE:", test_rmse)
+    print("Test R2:", test_r2)
+
+    # -----------------------------
+    # MLflow final run for best model
+    # -----------------------------
+    with mlflow.start_run(run_name="best_model_run"):
+        mlflow.set_tag("best_model", "true")
+
+        mlflow.log_params(best_params)
+
+        mlflow.log_metric("test_mse", test_mse)
+        mlflow.log_metric("test_rmse", test_rmse)
+        mlflow.log_metric("test_r2", test_r2)
+
+        mlflow.xgboost.log_model(
+            model,
+            artifact_path="model"
+        )
+
+
 
 if __name__ == "__main__":
     main()
